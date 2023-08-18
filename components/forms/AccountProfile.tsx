@@ -1,5 +1,5 @@
 "use client"
-import * as z from "zod"
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { UserValidation } from "@/lib/validations/user";
@@ -14,15 +14,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react";
+import Image from "next/image";
+import * as z from "zod"
+import { ChangeEvent, useState } from "react";
 import { isBase64Image } from "@/lib/utils";
-import { useUploadThing } from "@/lib/uploadthing";
+import { useUploadThing } from "@/lib/uploadthing"
 import { updateUser } from "@/lib/actions/user.actions";
 import { usePathname, useRouter } from "next/navigation";
-
-
 
 interface Props {
     user: {
@@ -95,15 +94,14 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
             bio: values.bio,
             image: values.profile_photo,
             path: pathname
-        })
-        
-        if(pathname === "/profile/edit"){
-            router.back();
-          } else {
-            router.push("/");
-          }
-      }
+        });
 
+        if(pathname === "/profile/edit"){
+          router.back();
+        } else {
+          router.push("/");
+        }
+      }
 
   return (
     <Form {...form}>
@@ -116,11 +114,11 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           name="profile_photo"
           render={({ field }) => (
             <FormItem className="flex items-center gap-4">
-            <FormLabel className="account-form_image-label">
+              <FormLabel className="account-form_image-label">
                 {field.value ? (
                     <Image 
                         src={field.value}
-                        alt="profile photo"
+                        alt="profile_photo"
                         width={96}
                         height={96}
                         priority
@@ -137,16 +135,16 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 
                 )}
               </FormLabel>
-                <FormControl className="flex-1 text-base-semibold text-gray-200">
-                    <Input 
-                        type="file"
-                        accept="image/*"
-                        placeholder="Uplead a photo"
-                        className="account-form_image-input"
-                        onChange={(e) => handleImage(e, field.onChange)}
-                    />
-                </FormControl>
-                <FormMessage />
+              <FormControl className="flex-1 text-base-semibold text-gray-200">
+                <Input 
+                    type="file"
+                    accept="image/*"
+                    placeholder="Uplead a photo"
+                    className="account-form_image-input"
+                    onChange={(e) => handleImage(e, field.onChange)}
+                />
+              </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -155,7 +153,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           control={form.control}
           name="name"
           render={({ field }) => (
-	          <FormItem className="flex flex-col gap-3 w-full">
+            <FormItem className="flex flex-col gap-3 w-full">
               <FormLabel className="text-base-semibold text-light-2">
                 Name
               </FormLabel>
@@ -166,12 +164,12 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                    {...field}
                 />
               </FormControl>
-						<FormMessage />
+              <FormMessage />
             </FormItem>
           )}
-        />
+        />   
 
-<FormField
+        <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
@@ -186,7 +184,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                    {...field}
                 />
               </FormControl>
-							<FormMessage />
+              <FormMessage />
             </FormItem>
           )}
         />     
@@ -206,11 +204,13 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                    {...field}
                 />
               </FormControl>
-							<FormMessage />
+              <FormMessage />
             </FormItem>
           )}
-	        />
-       <Button type="submit" className="bg-primary-500">Submit</Button>
+        />    
+         
+
+        <Button type="submit" className="bg-primary-500">Submit</Button>
       </form>
     </Form>
   )
